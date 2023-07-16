@@ -1,4 +1,5 @@
-class ItemsController < ApplicationController
+class Admin::ItemsController < ApplicationController
+  
   def new
     @item = Item.new
   end
@@ -6,10 +7,12 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @item.save
-    redirect_to admin_items_path
+   
   end
 
   def index
+    @items = Item.all
+    @item =  Item.find(params[:id])
   end
 
   def edit
@@ -19,8 +22,15 @@ class ItemsController < ApplicationController
   end
 end
 
-private
-
-def item_params
-  params.require(:item).permit(:image, :name, :introduce, :price)
-end
+  def get_image
+    unless image.attached?
+      file_path = Rails.root.join('app/assets/images/no_image.png')
+      image.attach(io: File.open(file_path), filename: 'default-image.png', content_type: 'image/png')
+    end
+    image
+  end
+  
+  private
+    def item_params
+      params.require(:item).permit(:image, :name, :introduction, :price)
+    end
