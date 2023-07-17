@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 }
 
   namespace :admin do
-
+    resources :products, only: [:new, :create, :index, :show, :edit, :update]
   end
   scope module: :public do
     root "homes#top"
@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   end
 
   # devise_for :users
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
